@@ -1,55 +1,87 @@
 package partlyEnumerationMethod;
 
+import java.text.DecimalFormat;
+
 public class BinaryTree {
 
-  private Node root = new Node(0);
-
-//  public BinaryTree() {
-//    this.root = null;
-//  }
+  private static Node root = new Node(0, 0, false);
+  private static double minValue = 100;
+  private static int width = 8;
 
   public static void main(String[] args) {
+
     BinaryTree bt = new BinaryTree();
-    bt.add(2); //Root
-    bt.add(4); //Right
-    bt.add(4); //Right Left
-//    bt.add(2); //Left
-//    bt.add(2); //Left Left
-//    bt.add(1); //Left Left Left
-  }
+    bt.add(150, 3_832_500, true);
+    bt.add(300, 6_570_000, false);
+    bt.add(350, 4_215_750, false);
+    bt.add(200, 4_015_000, false);
+    bt.add(250, 4_106_250, true);
+    bt.add(400, 5_840_000, true);
+    printTree(root, 1);
+    findMin(root);
 
-  public void add(int payload) {
-
-//    Node leftCurrNode = new Node(payload);
-//    Node rightCurrNode = new Node(0);
-
-    Node testLeftNode = root;
-    Node testRightNode = root;
-
-    if (testLeftNode.getLeftChild() != null) {
-      while (testLeftNode.getLeftChild() != null) {
-        testLeftNode = findLeftChild(testLeftNode);
-      }
-      addPart(testLeftNode, new Node(payload), new Node(0));
-      checkRight(testLeftNode.getParent(), payload);
-    }
-
-    if (testRightNode.getLeftChild() != null) {
-      while (testRightNode.getLeftChild() != null) {
-        testRightNode = findLeftChild(testRightNode);
-      }
-      addPart(testRightNode, new Node(payload), new Node(0));
-      checkLeft(testRightNode.getParent(), payload);
-    }
-
-    if (!root.hasChildren()) {
-      addPart(root, new Node(payload), new Node(0));
-    }
+    System.out.println(new DecimalFormat("#0.00").format(minValue));
 
   }
 
-  public void addPart(Node curRoot, Node leftNode, Node rightNode) {
+  private static void printSpace(int n) {
+    for (int i = 0; i < n; ++i) {
+      System.out.print(" ");
+    }
+  }
 
+  private static void printTree(Node node, int level) {
+    if (node == null) {
+      return;
+    }
+    printTree(node.getRightChild(), level + 1);
+    printSpace(level * width);
+    if (node.getCi() == 0) {
+      System.out.println("0");
+    } else {
+      System.out.println(new DecimalFormat("#0.00").format(node.getTok()));
+    }
+    printTree(node.getLeftChild(), level + 1);
+  }
+
+  private static void findMin(Node node) {
+
+    if (node != null) {
+      findMin(node.getRightChild());
+
+      if (node.getKpms() >= 3_000_000 && node.getKmso() >= 4_500_000) {
+        if (minValue > node.getTok()) {
+          minValue = node.getTok();
+        }
+      }
+      findMin(node.getLeftChild());
+    }
+  }
+
+  private void add(double Ci, double Ki, boolean isPMS) {
+    postOrder(root, Ci, Ki, isPMS);
+  }
+
+  private void postOrder(Node node, double Ci, double Ki, boolean isPMS) {
+    if (!node.hasChildren()) {
+      addPart(node, new Node(Ci, Ki, isPMS), new Node(0, 0, false));
+    } else {
+      postOrder(node.getLeftChild(), Ci, Ki, isPMS);
+      postOrder(node.getRightChild(), Ci, Ki, isPMS);
+    }
+  }
+
+  private void addPart(Node curRoot, Node leftNode, Node rightNode) {
+    if (curRoot == root) {
+      justAdd(curRoot, leftNode, rightNode);
+    } else {
+      if ((curRoot.getKmso() + curRoot.getKpms()) < 12_000_000 && curRoot.getTok() < 7) {
+        justAdd(curRoot, leftNode, rightNode);
+      }
+    }
+  }
+
+  private void justAdd(Node curRoot, Node leftNode, Node rightNode) {
     leftNode.setParent(curRoot);
     rightNode.setParent(curRoot);
 
@@ -57,44 +89,11 @@ public class BinaryTree {
     sum(rightNode);
     curRoot.setLeftChild(leftNode);
     curRoot.setRightChild(rightNode);
-
-    System.out
-        .println(curRoot.getPayload() + " " + leftNode.getPayload() + " " + rightNode.getPayload());
   }
 
-  public void checkRight(Node node, int payload) {
-    if (node.getRightChild() != null) {
-      while (node.getRightChild() != null) {
-        node = findRightChild(node);
-      }
-      addPart(node, new Node(payload), new Node(0));
-    }
-  }
-
-  public void checkLeft(Node node, int payload) {
-    if (node.getLeftChild() != null) {
-      while (node.getLeftChild() != null) {
-        node = findLeftChild(node);
-      }
-      addPart(node, new Node(payload), new Node(0));
-    }
-  }
-
-  public Node findRightChild(Node node) {
-    return node.getRightChild();
-  }
-
-  public Node findLeftChild(Node node) {
-    return node.getLeftChild();
-  }
-
-  public void sum(Node node) {
-    node.setPayload(node.getPayload() + node.getParent().getPayload());
-  }
-
-  public void display() {
-    if (this.root == null) {
-      System.out.println("Empty Tree");
-    }
+  private void sum(Node node) {
+    node.setCi(node.getCi() + node.getParent().getCi());
+    node.setKpms(node.getKpms() + node.getParent().getKpms());
+    node.setKmso(node.getKmso() + node.getParent().getKmso());
   }
 }
