@@ -11,12 +11,18 @@ public class BinaryTree {
   public static void main(String[] args) {
 
     BinaryTree bt = new BinaryTree();
-    bt.add(150, 3_832_500, true);
-    bt.add(300, 6_570_000, false);
-    bt.add(350, 4_215_750, false);
-    bt.add(200, 4_015_000, false);
-    bt.add(250, 4_106_250, true);
-    bt.add(400, 5_840_000, true);
+    bt.add(300, 5475000, false);
+    bt.add(350, 8942500, false);
+    bt.add(200, 1825000, false);
+    bt.add(150, 821250, true);
+    bt.add(250, 1186250, true);
+    bt.add(400, 2628000, true);
+//    bt.add(250, 2000000, true);
+//    bt.add(200, 2500000, true);
+//    bt.add(200, 3500000, false);
+//    bt.add(250, 4500000, false);
+//    bt.add(150, 4200000, true);
+//    bt.add(130, 5000000, false);
     printTree(root, 1);
     findMin(root);
 
@@ -45,11 +51,12 @@ public class BinaryTree {
   }
 
   private static void findMin(Node node) {
-
     if (node != null) {
       findMin(node.getRightChild());
 
-      if (node.getKpms() >= 3_000_000 && node.getKmso() >= 4_500_000) {
+      if (node.getKpms() >= 3_000_000 &&
+          node.getKmso() >= 4_500_000 &&
+          (node.getKmso() + node.getKpms()) <= 12_000_000) {
         if (minValue > node.getTok()) {
           minValue = node.getTok();
         }
@@ -75,7 +82,7 @@ public class BinaryTree {
     if (curRoot == root) {
       justAdd(curRoot, leftNode, rightNode);
     } else {
-      if ((curRoot.getKmso() + curRoot.getKpms()) < 12_000_000 && curRoot.getTok() < 7) {
+      if ((curRoot.getKmso() + curRoot.getKpms()) <= 12_000_000 && curRoot.getTok() < 6.1) {
         justAdd(curRoot, leftNode, rightNode);
       }
     }
