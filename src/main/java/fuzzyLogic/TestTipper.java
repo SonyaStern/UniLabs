@@ -44,7 +44,7 @@ public class TestTipper {
     System.out.println(velocity.getLatestDefuzzifiedValue());
   }
 
-  public static void main(String[] args) throws Exception {
+  public static void main(String[] args) {
 
     for (int i = 0; i < 5; i++) {
       getChartAndValue(16.5 + 0.3 * i);
