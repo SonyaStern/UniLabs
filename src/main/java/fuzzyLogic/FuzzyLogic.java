@@ -1,7 +1,9 @@
 package fuzzyLogic;
 
+import java.awt.Frame;
 import net.sourceforge.jFuzzyLogic.FIS;
 import net.sourceforge.jFuzzyLogic.FunctionBlock;
+import net.sourceforge.jFuzzyLogic.plot.JFuzzyChart;
 import net.sourceforge.jFuzzyLogic.rule.Variable;
 
 /**
@@ -9,7 +11,7 @@ import net.sourceforge.jFuzzyLogic.rule.Variable;
  *
  * @author pcingola@users.sourceforge.net
  */
-public class TestTipper {
+public class FuzzyLogic {
 
   public static void getChartAndValue(double temperature) {
     // Load from 'FCL' file
@@ -36,10 +38,10 @@ public class TestTipper {
     velocity.defuzzify();
 
     // Show
-//    JFuzzyChart.get().chart(fb);
+    JFuzzyChart.get().chart(fb);
 
     // Show output variable's chart
-//    JFuzzyChart.get().chart(velocity, velocity.getDefuzzifier(), true);
+    JFuzzyChart.get().chart(velocity, velocity.getDefuzzifier(), true);
 
     System.out.println(velocity.getLatestDefuzzifiedValue());
   }
@@ -49,5 +51,13 @@ public class TestTipper {
     for (int i = 0; i < 5; i++) {
       getChartAndValue(16.5 + 0.3 * i);
     }
+
+    double[] d = {10, 120,
+        20, 30,
+        30, 50,
+        100, 200,
+        110, 180};
+    Frame f = new SimpleGraph(d);
+    f.setVisible(true);
   }
 }
