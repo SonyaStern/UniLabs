@@ -23,8 +23,8 @@ public class SimpleGraph extends JFrame {
   }
 
   public static void main(String[] args) {
-    double[] d = {10, 120,
-        20, 30,
+    double[] d = {60, 62,
+        80, 69,
         30, 50,
         100, 200,
         110, 180};
@@ -53,10 +53,10 @@ public class SimpleGraph extends JFrame {
 
     public void paint(Graphics g) {
       Graphics2D g2 = (Graphics2D) g;
-      g2.drawLine(10, 210, 10, 10);
-      g2.drawString(("20"), 10, 10);
-      g2.drawLine(10, 210, 200, 210);
-      g2.drawString(("20"), 210, 210);
+      g2.drawLine(10, 260, 10, 10);
+      g2.drawString(("50"), 10, 10);
+      g2.drawLine(10, 260, 260, 260);
+      g2.drawString(("750"), 260, 260);
       for (int i = 0; i < points - 1; i++) {
         int x0 = (int) (XData[i] + 0.5);
         int x1 = (int) (XData[i + 1] + 0.5);
